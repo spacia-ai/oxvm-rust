@@ -4,7 +4,7 @@
 use std::io::IsTerminal;
 
 fn main() {
-    let info = tabvm_bridge::process::info();
+    let info = oxvm_bridge::process::info();
     let field = |name: &str, value: String| format!("\"{name}\":{value}");
     let quoted = |text: &str| format!("\"{}\"", text.replace('\\', "\\\\").replace('"', "\\\""));
     let mut fields = vec![];
@@ -21,7 +21,7 @@ fn main() {
         }
         Err(error) => fields.push(field("error", quoted(&error.to_string()))),
     }
-    let bridge_cwd = tabvm_bridge::process::cwd()
+    let bridge_cwd = oxvm_bridge::process::cwd()
         .map_or_else(|error| error.to_string(), |path| path.display().to_string());
     fields.push(field("bridgeCwd", quoted(&bridge_cwd)));
     let std_cwd = std::env::current_dir()

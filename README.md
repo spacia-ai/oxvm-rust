@@ -1,10 +1,10 @@
-# oxidevm-rust
+# OXVM Rust module
 
-An OxideVM module for Rust programs compiled to WebAssembly (`wasm32-wasip1`): each run is a real Linux process of the
+An OXVM module for Rust programs compiled to WebAssembly (`wasm32-wasip1`): each run is a real Linux process of the
 VM, with the caller's arguments, environment and standard streams, the VM's live files, and, through a small bridge
 crate, native Linux programs and VM sockets.
 
-Experimental: 0.1.x needs OxideVM SDK and CLI 0.0.14 or later.
+Experimental: 0.1.x needs OXVM SDK and CLI 0.0.14 or later.
 
 ## Use it
 
@@ -17,10 +17,10 @@ your page with that authority, so review it as you would a dependency. It needs 
 isolated page. After it is added, `rust-wasi` and `rust-bridge-demo` are commands in the VM's terminal.
 
 This module is a thin command layer. The WASI Preview1 implementation is the SDK's
-[`host.kit.wasi`](https://oxidevm.dev/docs/reference/wasi-kit/), and the Rust crate programs link is
-[`tabvm-bridge` (Cargo alias)](https://tabvm.dev/docs/reference/wasi-bridge/), which lives in the SDK repository
+[`host.kit.wasi`](https://oxvm.dev/docs/reference/wasi-kit/), and the Rust crate programs link is
+[`oxvm-bridge` (Cargo alias)](https://oxvm.dev/docs/reference/wasi-bridge/), which lives in the SDK repository
 (`crates/oxidevm-bridge`) and is published on [crates.io](https://crates.io/crates/oxidevm-bridge). Any module can run Rust programs the same way;
-see the guide [Run Rust programs](https://oxidevm.dev/docs/guides/rust-programs/).
+see the guide [Run Rust programs](https://oxvm.dev/docs/guides/rust-programs/).
 
 ## Commands
 
@@ -33,12 +33,12 @@ see the guide [Run Rust programs](https://oxidevm.dev/docs/guides/rust-programs/
   `oxidevm-pyodide-test` sample.
 
 Programs see standard streams, arguments, the environment, the VM's live files, its clocks and entropy through plain
-Rust `std`. Native Linux programs, sockets, the process identity and the working directory come from `tabvm-bridge`.
+Rust `std`. Native Linux programs, sockets, the process identity and the working directory come from `oxvm-bridge`.
 An exit status from 0 to 119 is reported exactly; a larger one is reported as 1 with a line naming the original.
 
 ## Network
 
-The module declares `net.vm`: programs reach the VM's own TCP and Unix sockets through `tabvm-bridge`, and nothing
+The module declares `net.vm`: programs reach the VM's own TCP and Unix sockets through `oxvm-bridge`, and nothing
 outside the VM. The module itself makes no network requests.
 
 ## Develop
@@ -70,12 +70,12 @@ OXIDEVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXIDEVM_TEST_USERSPACE_IMAGE
 
 Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
-## TabVM bridge migration (publication pending)
+## OXVM bridge migration (publication pending)
 
-The workspace uses `tabvm-bridge = { package = "oxidevm-bridge", version = "0.1" }`.
-Rust code imports `tabvm_bridge::`; the registry crate keeps its existing name.
+The workspace uses `oxvm-bridge = { package = "oxidevm-bridge", version = "0.1" }`.
+Rust code imports `oxvm_bridge::`; the registry crate keeps its existing name.
 The locked published crate 0.1.0 still emits `oxidevm_bridge_v1`. The next crate
-release emits `tabvm_bridge_v1`. The matching TabVM SDK supports both namespaces
+release emits `oxvm_bridge_v1`. The matching OXVM SDK supports both namespaces
 through one v1 implementation, with unchanged records and permissions.
 
 Before publishing a rebuilt module, release that SDK and the reviewed bridge crate,

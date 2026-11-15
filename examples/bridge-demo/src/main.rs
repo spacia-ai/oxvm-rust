@@ -41,14 +41,14 @@ fn json(text: &str) -> String {
 }
 
 fn identity(prompt: bool) -> ExitCode {
-    let info = match tabvm_bridge::process::info() {
+    let info = match oxvm_bridge::process::info() {
         Ok(info) => info,
         Err(error) => {
             eprintln!("rust-bridge-demo: {error}");
             return ExitCode::from(1);
         }
     };
-    let bridge_cwd = tabvm_bridge::process::cwd()
+    let bridge_cwd = oxvm_bridge::process::cwd()
         .map_or_else(|error| error.to_string(), |path| path.display().to_string());
     let std_cwd = std::env::current_dir()
         .map_or_else(|error| error.to_string(), |path| path.display().to_string());
@@ -99,7 +99,7 @@ fn run(args: &[String]) -> ExitCode {
         eprintln!("rust-bridge-demo: cannot read standard input");
         return ExitCode::from(1);
     }
-    let mut command = tabvm_bridge::process::Command::new(program.as_str());
+    let mut command = oxvm_bridge::process::Command::new(program.as_str());
     command.args(rest.iter().cloned()).input(input);
     match command.output() {
         Ok(output) => {
@@ -107,8 +107,8 @@ fn run(args: &[String]) -> ExitCode {
             let _ = io::stderr().write_all(&output.stderr);
             eprintln!("rust-bridge-demo: child {} {:?}", output.pid, output.status);
             match output.status {
-                tabvm_bridge::process::ExitStatus::Exited(code) => ExitCode::from(code.min(119)),
-                tabvm_bridge::process::ExitStatus::Signaled(signal) => {
+                oxvm_bridge::process::ExitStatus::Exited(code) => ExitCode::from(code.min(119)),
+                oxvm_bridge::process::ExitStatus::Signaled(signal) => {
                     ExitCode::from(100 + signal.min(19))
                 }
             }
@@ -141,9 +141,9 @@ fn connect(args: &[String]) -> ExitCode {
         ["tcp" | "tls", host, port] => match port.parse::<u16>() {
             Ok(port) => {
                 let opened = if parts.first() == Some(&"tls") {
-                    tabvm_bridge::net::TcpStream::connect_tls(host, port, &[])
+                    oxvm_bridge::net::TcpStream::connect_tls(host, port, &[])
                 } else {
-                    tabvm_bridge::net::TcpStream::connect(host, port)
+                    oxvm_bridge::net::TcpStream::connect(host, port)
                 };
                 opened.and_then(|stream| {
                     let shared = std::cell::RefCell::new(stream);
@@ -153,7 +153,7 @@ fn connect(args: &[String]) -> ExitCode {
             }
             Err(_) => Err(io::Error::new(io::ErrorKind::InvalidInput, "bad port")),
         },
-        ["unix", path] => tabvm_bridge::net::UnixStream::connect(path).and_then(|stream| {
+        ["unix", path] => oxvm_bridge::net::UnixStream::connect(path).and_then(|stream| {
             let shared = std::cell::RefCell::new(stream);
             let shutdown = || shared.borrow().shutdown(Shutdown::Write);
             exchange(&mut Shared(&shared), &shutdown)
@@ -195,7 +195,7 @@ fn summarize(args: &[String]) -> ExitCode {
 }
 
 fn summarize_files(input: &str, output: &str) -> Result<String, String> {
-    use tabvm_bridge::process::{Command, ExitStatus};
+    use oxvm_bridge::process::{Command, ExitStatus};
     let text =
         std::fs::read_to_string(input).map_err(|error| format!("cannot read {input}: {error}"))?;
     let mut lines = text.lines();
@@ -248,7 +248,7 @@ fn summarize_files(input: &str, output: &str) -> Result<String, String> {
     if restored.stdout != summary.as_bytes() {
         return Err("the native round trip changed the summary".into());
     }
-    let pid = tabvm_bridge::process::info()
+    let pid = oxvm_bridge::process::info()
         .map(|info| info.pid)
         .map_err(|error| error.to_string())?;
     Ok(format!(
