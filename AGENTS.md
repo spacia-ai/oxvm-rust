@@ -12,7 +12,7 @@ processes of a VM. `module.ts` holds the whole definition: a literal `manifest` 
   everything else from outside as untrusted and check it before any host side effect.
 - Linux semantics belong to the engine: the adapter never resolves, checks or rewrites paths itself, never keeps a copy
   of files, and never imitates a process or socket.
-- The limits in `src/limits.ts`, the `oxidevm_bridge_v1` imports and the dispositions in `test/wasi-preview1-imports.json`
+- The limits in `src/limits.ts`, the `oxvm_bridge_v1` imports (and the legacy `oxidevm_bridge_v1` alias) and the dispositions in `test/wasi-preview1-imports.json`
   are contracts: change them only together with their boundary tests.
 - Rust: edition 2024, Rust 1.99.1 (`rust-toolchain.toml`), `unsafe_code = "deny"` except at the one import boundary of
   the bridge crate, no `unwrap`/`expect` in library code.
