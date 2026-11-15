@@ -1,7 +1,7 @@
 {
   "source": "https://github.com/WebAssembly/WASI/blob/wasi-0.1/preview1/witx/wasi_snapshot_preview1.witx",
   "baseline": {
-    "sdk": "0.0.12 public API (oxidevm-sdk 97240165)"
+    "sdk": "SDK 0.0.12 public API (source 97240165)"
   },
   "dispositions": {
     "supported": "implemented over an existing public host operation",

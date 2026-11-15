@@ -2,10 +2,10 @@
 resolver = "3"
 members = ["examples/*", "test/fixtures/rust/*"]
 
-# The bridge crate is developed with the SDK (crates/oxidevm-bridge) and published to crates.io. To try an unreleased
-# change, OXIDEVM_BRIDGE_PATH=<sdk>/crates/oxidevm-bridge makes scripts/cargo.ts and build:rust use that checkout.
+# The bridge crate is developed with the SDK (crates/oxvm-bridge) and published to crates.io. To try an unreleased
+# change, OXVM_BRIDGE_PATH=<sdk>/crates/oxvm-bridge makes scripts/cargo.ts and build:rust use that checkout.
 [workspace.dependencies]
-oxvm-bridge = { package = "oxidevm-bridge", version = "0.1" }
+oxvm-bridge = "0.1"
 
 [workspace.package]
 edition = "2024"

@@ -33,11 +33,11 @@ for (const [name, hash] of first) if (second.get(name) !== hash) failures.push(`
 if (sha256(await readFile(join(root, "upstream/bridge-demo.wasm"))) !== first.get("bridge-demo.wasm")) failures.push("upstream/bridge-demo.wasm is not the reproducible build output");
 
 // 3. The module release contains only its own files, and nothing local or private.
-run(process.execPath, [join(root, "node_modules/@oxidevm/cli/dist/bin.js"), "wasm", "build", "--project", root]);
+run(process.execPath, [join(root, "node_modules/@oxvm/cli/dist/bin.js"), "wasm", "build", "--project", root]);
 const allowed = new Set(["module.json", "adapter.mjs", "bridge-demo.wasm", "LICENSE", "NOTICE", "SHA256SUMS"]);
 const release = (await readdir(join(root, "dist"))).sort();
 for (const name of release) if (!allowed.has(name)) failures.push(`dist/${name} is not part of the release`);
-const forbidden = [homedir(), root, "/home/", "implementation-path", ".oxidevm/plans", "Co-Authored-By"];
+const forbidden = [homedir(), root, "/home/", "implementation-path", ".oxidevm/plans", ".oxvm/plans", "Co-Authored-By"];
 for (const name of release) {
   const bytes = await readFile(join(root, "dist", name));
   for (const needle of forbidden) if (bytes.includes(needle)) failures.push(`dist/${name} contains ${JSON.stringify(needle)}`);
@@ -45,7 +45,7 @@ for (const name of release) {
 
 // 4. Local design material and plans are never tracked.
 const tracked = run("git", ["ls-files"]).split("\n").filter(Boolean);
-for (const path of tracked) if (path.startsWith("docs/") || /implementation-path|\.oxidevm\/plans/u.test(path)) failures.push(`${path} is tracked but must stay local`);
+for (const path of tracked) if (path.startsWith("docs/") || /implementation-path|\.(?:oxidevm|oxvm)\/plans/u.test(path)) failures.push(`${path} is tracked but must stay local`);
 
 process.stdout.write(`${JSON.stringify({ reproducible: [...first].map(([name, hash]) => `${name} ${hash.slice(0, 16)}`), release, failures }, null, 2)}\n`);
 process.exitCode = failures.length === 0 ? 0 : 1;

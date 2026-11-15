@@ -1,5 +1,5 @@
 // SL-02: process identity, launch context and standard streams of the pinned Rust program, run by /bin/sh in the VM.
-import type { UserspaceVM } from "@oxidevm/sdk";
+import type { UserspaceVM } from "@oxvm/sdk";
 import { decoder, exact, expect, mainThreadGap, sh, type Scenario } from "./support";
 
 async function terminalRun(vm: UserspaceVM, script: string): Promise<string> {

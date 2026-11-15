@@ -1,10 +1,10 @@
-import { defineModule } from "@oxidevm/sdk/wasm";
+import { defineModule } from "@oxvm/sdk/wasm";
 import { rustCommand } from "./src/command.ts";
 
 export default defineModule({
   manifest: {
-    id: "oxidevm-rust",
-    version: "0.1.1",
+    id: "oxvm-rust",
+    version: "0.2.0",
     abi: "wasi",
     // The pinned demonstration program, built from examples/bridge-demo with the pinned toolchain (scripts/build-wasm.ts).
     artifacts: [

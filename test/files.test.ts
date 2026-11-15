@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import type { CommandIO } from "@oxidevm/sdk/wasm";
+import type { CommandIO } from "@oxvm/sdk/wasm";
 import { rustCommand, type RustCommandName } from "../src/command.ts";
 import { FakeFiles } from "./support/files.ts";
 import { descriptor, streams } from "./support/streams.ts";

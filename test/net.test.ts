@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { NetError, type CommandIO, type NetSyncConnection as SyncConnection, type WasiRunHost } from "@oxidevm/sdk/wasm";
+import { NetError, type CommandIO, type NetSyncConnection as SyncConnection, type WasiRunHost } from "@oxvm/sdk/wasm";
 import { rustCommand, type RustCommandName } from "../src/command.ts";
 import { descriptor, streams } from "./support/streams.ts";
 

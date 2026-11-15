@@ -1,5 +1,5 @@
-import type { LinuxSyncFiles } from "@oxidevm/sdk/js-process";
-import type { CommandHooks, Kit, WasiRunHost } from "@oxidevm/sdk/wasm";
+import type { LinuxSyncFiles } from "@oxvm/sdk/js-process";
+import type { CommandHooks, Kit, WasiRunHost } from "@oxvm/sdk/wasm";
 import { runner } from "./runner.ts";
 
 /**

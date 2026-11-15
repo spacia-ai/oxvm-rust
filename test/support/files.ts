@@ -1,8 +1,8 @@
 // A recording, tree-backed stand-in for the files.at port and the file members of files.sync, for adapter unit tests.
 // It resolves paths lexically (no symlink following) and records every call with its exact flags, so tests assert
 // what the adapter asks of the host; Linux semantics themselves are checked against the real engine in test/browser.
-import type { FileDescriptor, LinuxFileStat } from "@oxidevm/sdk/js-process";
-import type { LinuxAtFiles as AtFiles, LinuxDirent } from "@oxidevm/sdk/js-process";
+import type { FileDescriptor, LinuxFileStat } from "@oxvm/sdk/js-process";
+import type { LinuxAtFiles as AtFiles, LinuxDirent } from "@oxvm/sdk/js-process";
 import { descriptor, FakeLinuxError } from "./streams.ts";
 
 type Node = { mode: number; data: Uint8Array; target?: Uint8Array; atime: bigint; mtime: bigint };

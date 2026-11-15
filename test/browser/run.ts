@@ -1,8 +1,8 @@
 // Real-engine browser tests: builds this module, installs it into a fresh consumer project with the real CLI
-// (`oxidevm wasm add file:vendor/rust`), type-checks the page against the generated handles, builds it with Vite, serves
+// (`oxvm wasm add file:vendor/rust`), type-checks the page against the generated handles, builds it with Vite, serves
 // it with the SDK's pinned engine and a signed Userspace image, and runs one suite in Chromium or Firefox.
 //
-//   OXIDEVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXIDEVM_TEST_USERSPACE_IMAGE_DIR=<bundle directory> \
+//   OXVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXVM_TEST_USERSPACE_IMAGE_DIR=<bundle directory> \
 //     node test/browser/run.ts <suite> [--browser chromium|firefox]
 //
 // The reference JSON is { "mode": "userspace", "manifestUrl", "manifestSHA256", "trust" }. The image needs a POSIX sh,
@@ -18,7 +18,7 @@ import { dirname, extname, join, resolve } from "node:path";
 import { parseArgs, promisify } from "node:util";
 import { chromium, firefox, webkit, type Browser } from "playwright";
 import { build } from "vite";
-import { decodeProjectConfig, getSDKRelease, pinnedEngineCompliance } from "@oxidevm/sdk/image-builder";
+import { decodeProjectConfig, getSDKRelease, pinnedEngineCompliance } from "@oxvm/sdk/image-builder";
 
 const execute = promisify(execFile);
 const { values: flags, positionals } = parseArgs({ options: { browser: { type: "string", default: "chromium" } }, allowPositionals: true, strict: true });
@@ -27,25 +27,25 @@ if (suite === undefined || !/^[a-z-]+$/u.test(suite)) throw new Error("usage: no
 if (flags.browser !== "chromium" && flags.browser !== "firefox" && flags.browser !== "webkit") throw new Error(`Unsupported browser ${flags.browser}`);
 const browserName = flags.browser;
 const root = resolve(import.meta.dirname, "../..");
-const imageFile = process.env["OXIDEVM_TEST_USERSPACE_IMAGE"], imageDir = process.env["OXIDEVM_TEST_USERSPACE_IMAGE_DIR"];
+const imageFile = process.env["OXVM_TEST_USERSPACE_IMAGE"], imageDir = process.env["OXVM_TEST_USERSPACE_IMAGE_DIR"];
 if (imageFile === undefined || imageDir === undefined) {
-  process.stderr.write("Set OXIDEVM_TEST_USERSPACE_IMAGE (an image reference JSON) and OXIDEVM_TEST_USERSPACE_IMAGE_DIR (its bundle directory).\n");
+  process.stderr.write("Set OXVM_TEST_USERSPACE_IMAGE (an image reference JSON) and OXVM_TEST_USERSPACE_IMAGE_DIR (its bundle directory).\n");
   process.exit(2);
 }
-const sdk = join(root, "node_modules/@oxidevm/sdk");
-const cli = join(root, "node_modules/@oxidevm/cli/dist/bin.js");
-const engineDir = process.env["OXIDEVM_ENGINE_DIR"] ?? join(homedir(), ".cache/oxidevm/engine", getSDKRelease().engineRelease.replace(/^sha256:/u, ""));
+const sdk = join(root, "node_modules/@oxvm/sdk");
+const cli = join(root, "node_modules/@oxvm/cli/dist/bin.js");
+const engineDir = process.env["OXVM_ENGINE_DIR"] ?? join(homedir(), ".cache/oxidevm/engine", getSDKRelease().engineRelease.replace(/^sha256:/u, ""));
 const compliance = pinnedEngineCompliance();
-const complianceDir = compliance === null ? undefined : join(homedir(), ".cache/oxidevm/engine/compliance", compliance.sha256);
+const complianceDir = compliance === null ? undefined : process.env["OXVM_ENGINE_COMPLIANCE_DIR"] ?? join(homedir(), ".cache/oxidevm/engine/compliance", compliance.sha256);
 for (const path of [cli, engineDir, imageDir, join(root, "test/browser/suites", `${suite}.ts`)]) await stat(path);
 
 await execute(process.execPath, [cli, "wasm", "build", "--project", root], { cwd: root });
-const output = await mkdtemp(join(tmpdir(), `oxidevm-rust-${suite}-`));
+const output = await mkdtemp(join(tmpdir(), `oxvm-rust-${suite}-`));
 const project = join(output, "project");
 await mkdir(join(project, "src"), { recursive: true });
-await mkdir(join(project, "node_modules/@oxidevm"), { recursive: true });
-await symlink(sdk, join(project, "node_modules/@oxidevm/sdk"));
-await writeFile(join(project, "package.json"), `${JSON.stringify({ name: "oxidevm-rust-browser-test", private: true, type: "module" }, null, 2)}\n`);
+await mkdir(join(project, "node_modules/@oxvm"), { recursive: true });
+await symlink(sdk, join(project, "node_modules/@oxvm/sdk"));
+await writeFile(join(project, "package.json"), `${JSON.stringify({ name: "oxvm-rust-browser-test", private: true, type: "module" }, null, 2)}\n`);
 await cp(join(root, "dist"), join(project, "vendor/rust"), { recursive: true });
 await cp(join(root, "test/browser/page/index.html"), join(project, "index.html"));
 await cp(join(root, "test/browser/page/tsconfig.json"), join(project, "tsconfig.json"));
@@ -122,7 +122,7 @@ const external: string[] = [];
 try {
   const tab = await browser.newPage();
   tab.setDefaultTimeout(900_000);
-  tab.on("console", message => { if (process.env["OXIDEVM_VERBOSE"] !== undefined) process.stderr.write(`browser: ${message.text()}\n`); });
+  tab.on("console", message => { if (process.env["OXVM_VERBOSE"] !== undefined) process.stderr.write(`browser: ${message.text()}\n`); });
   tab.on("pageerror", error => { process.stderr.write(`page error: ${error.message}\n`); });
   // Every request must stay on the test origin: the module, engine and image are all served locally.
   tab.context().on("request", request => { const url = new URL(request.url()); if (!["127.0.0.1", "localhost"].includes(url.hostname) && !["blob:", "data:"].includes(url.protocol)) external.push(request.url()); });

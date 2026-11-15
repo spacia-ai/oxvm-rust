@@ -1,5 +1,5 @@
 //! File operations for the real-engine suites: each operation prints `<op>: ok <detail>` or `<op>: err <ErrorKind>`,
-//! so a shell script can compare the outcome with what native tools see. It links oxidevm-bridge, which moves wasi-libc
+//! so a shell script can compare the outcome with what native tools see. It links oxvm-bridge, which moves wasi-libc
 //! to the caller's directory before `main`, so relative paths resolve as they would natively.
 //!
 //!   fsops cat <path> | write <path> <text> | append <path> <text> | ls <dir> | mkdir <dir> | rm <path> | rmdir <dir>
