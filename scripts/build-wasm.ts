@@ -1,5 +1,5 @@
 // Builds every Rust fixture for wasm32-wasip1 with the pinned toolchain and stages the pinned demonstration program.
-// Source paths are remapped (the workspace to /oxidevm-rust, the toolchain's library sources to /rustc/<commit>), so
+// Source paths are remapped (the workspace to /oxvm-rust, the toolchain's library sources to /rustc/<commit>), so
 // binaries carry no local path or user name; the build fails if one still does.
 //
 //   node scripts/build-wasm.ts
@@ -15,17 +15,17 @@ const sysroot = run("rustc", ["--print", "sysroot"]);
 const commit = /commit-hash: ([0-9a-f]{40})/u.exec(run("rustc", ["-vV"]))?.[1];
 if (commit === undefined) throw new Error("rustc -vV reported no commit hash");
 function bridgeRemap(): readonly string[] {
-  const path = process.env["OXIDEVM_BRIDGE_PATH"];
-  return path === undefined || path === "" ? [] : [`--remap-path-prefix=${resolve(path)}=/oxidevm-bridge`];
+  const path = process.env["OXVM_BRIDGE_PATH"];
+  return path === undefined || path === "" ? [] : [`--remap-path-prefix=${resolve(path)}=/oxvm-bridge`];
 }
 const flags = [
   "-C", "link-arg=--max-memory=268435456", "-C", "link-arg=-zstack-size=1048576",
-  `--remap-path-prefix=${root}=/oxidevm-rust`,
+  `--remap-path-prefix=${root}=/oxvm-rust`,
   `--remap-path-prefix=${join(sysroot, "lib/rustlib/src/rust")}=/rustc/${commit}`,
   `--remap-path-prefix=${join(homedir(), ".cargo")}=/cargo`,
   ...bridgeRemap(),
 ];
-// The lock records the published crate; a local OXIDEVM_BRIDGE_PATH patch builds without --locked.
+// The lock records the published crate; a local OXVM_BRIDGE_PATH patch builds without --locked.
 const locked = bridgePatch().length === 0 ? ["--locked"] : [];
 execFileSync("cargo", ["build", ...bridgePatch(), ...locked, "--release", "--target", "wasm32-wasip1"], {
   cwd: root, stdio: "inherit", env: { ...process.env, CARGO_ENCODED_RUSTFLAGS: flags.join("\x1f") },

@@ -1,7 +1,7 @@
 // Signals and durability of Rust programs against the real engine.
-import { createVM, defineImage, type UserspaceVM } from "@oxidevm/sdk";
-import { enableModuleCommands } from "@oxidevm/sdk/wasm";
-import { oxidevmRust } from "./oxidevm.modules.generated";
+import { createVM, defineImage, type UserspaceVM } from "@oxvm/sdk";
+import { enableModuleCommands } from "@oxvm/sdk/wasm";
+import { oxvmRust } from "./oxvm.modules.generated";
 import { expect, sh, stageFixture, type Config, type Scenario } from "./support";
 
 const isConfig = (value: unknown): value is Config => typeof value === "object" && value !== null && typeof Reflect.get(value, "origin") === "string" && typeof Reflect.get(value, "image") === "object";
@@ -53,7 +53,7 @@ export const scenarios: readonly Scenario[] = [
       await first.exec({ command: "/bin/mkdir", args: ["-p", "/workspace/t"], stdin: new Uint8Array() });
       const fixture = await vm.workspace.read("t/fixture-fsops.wasm");
       await first.workspace.writeFile("t/fixture-fsops.wasm", fixture.data);
-      const commands = await enableModuleCommands(first, oxidevmRust);
+      const commands = await enableModuleCommands(first, oxvmRust);
       try {
         const wrote = await sh(first, `${fsops} sync-write /workspace/t/durable.txt committed-by-rust`);
         expect("write", wrote.stdout === "sync-write: ok synced\n", wrote);

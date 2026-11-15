@@ -1,12 +1,12 @@
-# oxidevm-rust: instructions for coding agents
+# oxvm-rust: instructions for coding agents
 
-This repository is an OxideVM WebAssembly module that runs Rust programs compiled for `wasm32-wasip1` as real Linux
+This repository is an OXVM WebAssembly module that runs Rust programs compiled for `wasm32-wasip1` as real Linux
 processes of a VM. `module.ts` holds the whole definition: a literal `manifest` and the `adapter`.
 
 - Edit `module.ts`, `src/`, `test/`, `scripts/`, `crates/`, `examples/` and `test/fixtures/rust/`. Never edit `dist/` or `target/`.
 - `docs/` is the maintainer's local design material: it is ignored by Git and never committed or pushed.
 - Keep the manifest a literal, and declare in `requires.host` only what the adapter uses.
-- Import types from `@oxidevm/sdk/wasm` with `import type`; the only value import is `defineModule`. Never import the
+- Import types from `@oxvm/sdk/wasm` with `import type`; the only value import is `defineModule`. Never import the
   SDK's private `runtime/` paths.
 - No `any`, no `@ts-ignore`, no non-null assertions, no unchecked casts. Treat guest memory, WebAssembly exports and
   everything else from outside as untrusted and check it before any host side effect.

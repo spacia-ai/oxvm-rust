@@ -4,12 +4,12 @@ An OXVM module for Rust programs compiled to WebAssembly (`wasm32-wasip1`): each
 VM, with the caller's arguments, environment and standard streams, the VM's live files, and, through a small bridge
 crate, native Linux programs and VM sockets.
 
-Experimental: 0.1.x needs OXVM SDK and CLI 0.0.14 or later.
+Experimental: 0.2.x needs OXVM SDK and CLI 0.0.27 or later.
 
 ## Use it
 
 ```sh
-oxidevm wasm add github:spacia-ai/oxidevm-rust@v0.1.1
+oxvm wasm add github:spacia-ai/oxvm-rust@v0.2.0
 ```
 
 The command shows what the module declares and asks before it installs anything. A module is code that runs in a worker of
@@ -18,8 +18,8 @@ isolated page. After it is added, `rust-wasi` and `rust-bridge-demo` are command
 
 This module is a thin command layer. The WASI Preview1 implementation is the SDK's
 [`host.kit.wasi`](https://oxvm.dev/docs/reference/wasi-kit/), and the Rust crate programs link is
-[`oxvm-bridge` (Cargo alias)](https://oxvm.dev/docs/reference/wasi-bridge/), which lives in the SDK repository
-(`crates/oxidevm-bridge`) and is published on [crates.io](https://crates.io/crates/oxidevm-bridge). Any module can run Rust programs the same way;
+[`oxvm-bridge`](https://oxvm.dev/docs/reference/wasi-bridge/), which lives in the SDK repository
+(`crates/oxvm-bridge`) and is published on [crates.io](https://crates.io/crates/oxvm-bridge). Any module can run Rust programs the same way;
 see the guide [Run Rust programs](https://oxvm.dev/docs/guides/rust-programs/).
 
 ## Commands
@@ -30,7 +30,7 @@ see the guide [Run Rust programs](https://oxvm.dev/docs/guides/rust-programs/).
   `:ro` grants one read-only.
 - `rust-bridge-demo` is a pinned example program (`examples/bridge-demo`) that exercises standard streams, files, native
   children and sockets; `rust-bridge-demo summarize <in.csv> <out.csv>` is the end-to-end example used by the
-  `oxidevm-pyodide-test` sample.
+  `oxvm-pyodide-test` sample.
 
 Programs see standard streams, arguments, the environment, the VM's live files, its clocks and entropy through plain
 Rust `std`. Native Linux programs, sockets, the process identity and the working directory come from `oxvm-bridge`.
@@ -43,8 +43,8 @@ outside the VM. The module itself makes no network requests.
 
 ## Develop
 
-`oxidevm-bridge` comes from crates.io. To try an unreleased change to it, set
-`OXIDEVM_BRIDGE_PATH=<oxidevm-sdk checkout>/crates/oxidevm-bridge`; `scripts/cargo.ts` and `pnpm run build:rust` then
+`oxvm-bridge` comes from crates.io. To try an unreleased change to it, set
+`OXVM_BRIDGE_PATH=<oxvm-sdk checkout>/crates/oxvm-bridge`; `scripts/cargo.ts` and `pnpm run build:rust` then
 use that checkout.
 
 ```sh
@@ -62,7 +62,7 @@ Real-engine browser suites (`test/browser/suites`) need a signed Userspace image
 tools:
 
 ```sh
-OXIDEVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXIDEVM_TEST_USERSPACE_IMAGE_DIR=<bundle directory> \
+OXVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXVM_TEST_USERSPACE_IMAGE_DIR=<bundle directory> \
   pnpm run test:browser stdio --browser chromium
 ```
 
@@ -70,17 +70,20 @@ OXIDEVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXIDEVM_TEST_USERSPACE_IMAGE
 
 Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
-## OXVM bridge migration (publication pending)
+## OXVM migration
 
-The workspace uses `oxvm-bridge = { package = "oxidevm-bridge", version = "0.1" }`.
-Rust code imports `oxvm_bridge::`; the registry crate keeps its existing name.
-The locked published crate 0.1.0 still emits `oxidevm_bridge_v1`. The next crate
-release emits `oxvm_bridge_v1`. The matching OXVM SDK supports both namespaces
-through one v1 implementation, with unchanged records and permissions.
+This source prepares module `oxvm-rust` 0.2.0 with the matched `@oxvm/sdk`
+and `@oxvm/cli` 0.0.27 packages. The workspace uses the actual
+`oxvm-bridge = "0.1"` crate. Rust code imports `oxvm_bridge::`, and the bridge
+emits `oxvm_bridge_v1`. This is a package identity change, with unchanged v1
+records and permissions.
 
-Before publishing a rebuilt module, release that SDK and the reviewed bridge crate,
-update the module's matched SDK/CLI dependencies and Cargo lock, rebuild the demo,
-and requalify it. Existing module IDs, commands, releases and artifact URLs stay valid.
-Use `OXIDEVM_BRIDGE_PATH` for local qualification against the unreleased crate.
-The current published SDK cannot run the new namespace. No npm, Cargo or module
-release is part of this source change.
+The matching SDK also admits the retained v1 namespace through the same
+implementation. Earlier locked modules keep their recorded identity and
+artifacts. Install this canonical module as a new identity and review the
+module and capability changes before replacing an earlier locked installation.
+
+The matched SDK/CLI 0.0.27 and bridge crate 0.1.0 are published. Registry locks
+resolve these packages. Before tagging a module release, rebuild the demonstration
+program and complete the browser conformance and reproducibility checks. Use
+`OXVM_BRIDGE_PATH` only to qualify an unreleased bridge change locally.

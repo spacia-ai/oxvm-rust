@@ -6,7 +6,7 @@ version = 4
 name = "bridge-demo"
 version = "0.0.0"
 dependencies = [
- "oxidevm-bridge",
+ "oxvm-bridge",
 ]
 
 [[package]]
@@ -21,7 +21,7 @@ version = "0.0.0"
 name = "fixture-fsops"
 version = "0.0.0"
 dependencies = [
- "oxidevm-bridge",
+ "oxvm-bridge",
 ]
 
 [[package]]
@@ -32,7 +32,7 @@ version = "0.0.0"
 name = "fixture-identity"
 version = "0.0.0"
 dependencies = [
- "oxidevm-bridge",
+ "oxvm-bridge",
 ]
 
 [[package]]
@@ -44,7 +44,7 @@ name = "fixture-seam"
 version = "0.0.0"
 
 [[package]]
-name = "oxidevm-bridge"
+name = "oxvm-bridge"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6771aaa43c025f9ba1e8edb5a91f6f025f3f1b6726abf82681868416335bf455"
+checksum = "a7d7a13f3febb2055d44d42ac6975bf00ec6b7ebba3559711f29eafe7af87734"

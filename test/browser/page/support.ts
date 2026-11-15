@@ -1,6 +1,6 @@
 // Shared by every suite: the VM, /bin/sh runs with exact results, and the page's main-thread responsiveness.
-import { createVM, defineImage } from "@oxidevm/sdk";
-import type { UserspaceVM } from "@oxidevm/sdk";
+import { createVM, defineImage } from "@oxvm/sdk";
+import type { UserspaceVM } from "@oxvm/sdk";
 
 export interface Config {
   readonly origin: string;

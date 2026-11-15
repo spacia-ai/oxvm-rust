@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import type { CommandIO } from "@oxidevm/sdk/wasm";
+import type { CommandIO } from "@oxvm/sdk/wasm";
 import { rustCommand, type RustCommandName } from "../src/command.ts";
-import type { NativeSyncRunResult as NativeRunResult, NativeSyncRunSpec as NativeRunSpec, ProcessSync } from "@oxidevm/sdk/js-process";
+import type { NativeSyncRunResult as NativeRunResult, NativeSyncRunSpec as NativeRunSpec, ProcessSync } from "@oxvm/sdk/js-process";
 import { descriptor, FakeLinuxError, processId, streams } from "./support/streams.ts";
 
 const demo = new WebAssembly.Module(await readFile(new URL("../upstream/bridge-demo.wasm", import.meta.url)));
@@ -45,7 +45,7 @@ describe("native children through the bridge (OBL-NATIVE-OUTPUT, OBL-CHILD-STATU
 
   it("is unavailable without process.sync, and nothing runs (OBL-NATIVE-DENIED)", async () => {
     const result = await run(["run", "/bin/true"], undefined);
-    expect(result).toMatchObject({ status: 1, stderr: "rust-bridge-demo: the OxideVM bridge is not available to this program\n" });
+    expect(result).toMatchObject({ status: 1, stderr: "rust-bridge-demo: the OXVM bridge is not available to this program\n" });
   });
 });
 

@@ -1,8 +1,8 @@
 // A typed stand-in for the module host `rustCommand` uses: the SDK's real `kit`, three standard streams with an optional
 // pipe capacity (so writes can be partial), Linux errors as the SDK's LinuxError, `fail` writing its message to standard
 // error, and the optional files.at / clock / random / process.sync / net members. It models only what the kit calls.
-import { LinuxError, type ClockHost, type FileDescriptor, type LinuxFileStat, type LinuxProcessInfo, type ProcessSync, type RandomHost } from "@oxidevm/sdk/js-process";
-import { kit, type WasiRunHost } from "@oxidevm/sdk/wasm";
+import { LinuxError, type ClockHost, type FileDescriptor, type LinuxFileStat, type LinuxProcessInfo, type ProcessSync, type RandomHost } from "@oxvm/sdk/js-process";
+import { kit, type WasiRunHost } from "@oxvm/sdk/wasm";
 import type { RustHost } from "../../src/command.ts";
 import type { FakeFiles } from "./files.ts";
 

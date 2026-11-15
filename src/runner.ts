@@ -1,4 +1,4 @@
-import type { CommandIO, Preopen } from "@oxidevm/sdk/wasm";
+import type { CommandIO, Preopen } from "@oxvm/sdk/wasm";
 import type { RustHost } from "./command.ts";
 
 /** The version `rust-wasi --version` prints (module.ts `version`). */
