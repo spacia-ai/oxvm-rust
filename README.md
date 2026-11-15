@@ -18,7 +18,7 @@ isolated page. After it is added, `rust-wasi` and `rust-bridge-demo` are command
 
 This module is a thin command layer. The WASI Preview1 implementation is the SDK's
 [`host.kit.wasi`](https://oxidevm.dev/docs/reference/wasi-kit/), and the Rust crate programs link is
-[`oxidevm-bridge`](https://oxidevm.dev/docs/reference/wasi-bridge/), which lives in the SDK repository
+[`tabvm-bridge` (Cargo alias)](https://tabvm.dev/docs/reference/wasi-bridge/), which lives in the SDK repository
 (`crates/oxidevm-bridge`) and is published on [crates.io](https://crates.io/crates/oxidevm-bridge). Any module can run Rust programs the same way;
 see the guide [Run Rust programs](https://oxidevm.dev/docs/guides/rust-programs/).
 
@@ -33,12 +33,12 @@ see the guide [Run Rust programs](https://oxidevm.dev/docs/guides/rust-programs/
   `oxidevm-pyodide-test` sample.
 
 Programs see standard streams, arguments, the environment, the VM's live files, its clocks and entropy through plain
-Rust `std`. Native Linux programs, sockets, the process identity and the working directory come from `oxidevm-bridge`.
+Rust `std`. Native Linux programs, sockets, the process identity and the working directory come from `tabvm-bridge`.
 An exit status from 0 to 119 is reported exactly; a larger one is reported as 1 with a line naming the original.
 
 ## Network
 
-The module declares `net.vm`: programs reach the VM's own TCP and Unix sockets through `oxidevm-bridge`, and nothing
+The module declares `net.vm`: programs reach the VM's own TCP and Unix sockets through `tabvm-bridge`, and nothing
 outside the VM. The module itself makes no network requests.
 
 ## Develop
@@ -69,3 +69,18 @@ OXIDEVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXIDEVM_TEST_USERSPACE_IMAGE
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+## TabVM bridge migration (publication pending)
+
+The workspace uses `tabvm-bridge = { package = "oxidevm-bridge", version = "0.1" }`.
+Rust code imports `tabvm_bridge::`; the registry crate keeps its existing name.
+The locked published crate 0.1.0 still emits `oxidevm_bridge_v1`. The next crate
+release emits `tabvm_bridge_v1`. The matching TabVM SDK supports both namespaces
+through one v1 implementation, with unchanged records and permissions.
+
+Before publishing a rebuilt module, release that SDK and the reviewed bridge crate,
+update the module's matched SDK/CLI dependencies and Cargo lock, rebuild the demo,
+and requalify it. Existing module IDs, commands, releases and artifact URLs stay valid.
+Use `OXIDEVM_BRIDGE_PATH` for local qualification against the unreleased crate.
+The current published SDK cannot run the new namespace. No npm, Cargo or module
+release is part of this source change.

@@ -82,7 +82,7 @@ fn run(args: &[String]) -> std::io::Result<String> {
 
 fn main() -> ExitCode {
     // Linking the bridge restores the caller's directory; referencing it keeps the crate in the link.
-    let _ = oxidevm_bridge::process::cwd;
+    let _ = tabvm_bridge::process::cwd;
     let args: Vec<String> = std::env::args().skip(1).collect();
     let op = args.first().cloned().unwrap_or_default();
     match run(&args) {

@@ -83,7 +83,7 @@ for (const file of (await readdir(built)).filter(name => name.endsWith(".wasm"))
   for (const entry of imports) {
     if (entry.kind !== "function") problems.push(`imports a ${entry.kind} ${entry.module}.${entry.name}`);
     else if (entry.module === "wasi_snapshot_preview1" && !known.has(entry.name)) problems.push(`unclassified WASI import ${entry.name}`);
-    else if (entry.module !== "wasi_snapshot_preview1" && !/^oxidevm_bridge_(?:v1|spike)$/u.test(entry.module)) problems.push(`unknown import namespace ${entry.module}`);
+    else if (entry.module !== "wasi_snapshot_preview1" && !/^(?:tabvm_bridge_v1|oxidevm_bridge_v1|oxidevm_bridge_spike)$/u.test(entry.module)) problems.push(`unknown import namespace ${entry.module}`);
   }
   if (defined.memories.length !== 1) problems.push(`${String(defined.memories.length)} memories`);
   for (const memory of defined.memories) if (memory.max === null || memory.max > 4096 || memory.shared || memory.memory64) problems.push(`memory ${JSON.stringify(memory)}`);
