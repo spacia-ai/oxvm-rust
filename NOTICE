@@ -1,7 +1,7 @@
 oxvm-rust
 Copyright (c) 2026 Spacia B.V.
 
-An OXVM WebAssembly module that runs Rust programs compiled for wasm32-wasip1 as Linux processes of an OXVM
+An OxVM WebAssembly module that runs Rust programs compiled for wasm32-wasip1 as Linux processes of an OxVM
 virtual machine. Licensed under the Apache License, Version 2.0 (LICENSE).
 
 bridge-demo.wasm is built from examples/bridge-demo in this repository with the toolchain pinned in rust-toolchain.toml

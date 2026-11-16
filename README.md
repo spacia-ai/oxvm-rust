@@ -1,10 +1,10 @@
-# OXVM Rust module
+# OxVM Rust module
 
-An OXVM module for Rust programs compiled to WebAssembly (`wasm32-wasip1`): each run is a real Linux process of the
+An OxVM module for Rust programs compiled to WebAssembly (`wasm32-wasip1`): each run is a real Linux process of the
 VM, with the caller's arguments, environment and standard streams, the VM's live files, and, through a small bridge
 crate, native Linux programs and VM sockets.
 
-Experimental: 0.2.x needs OXVM SDK and CLI 0.0.27 or later.
+Experimental: 0.2.x needs OxVM SDK and CLI 0.0.27 or later.
 
 ## Use it
 
@@ -70,7 +70,7 @@ OXVM_TEST_USERSPACE_IMAGE=<image reference JSON> OXVM_TEST_USERSPACE_IMAGE_DIR=<
 
 Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
-## OXVM migration
+## OxVM migration
 
 This source prepares module `oxvm-rust` 0.2.0 with the matched `@oxvm/sdk`
 and `@oxvm/cli` 0.0.27 packages. The workspace uses the actual
