@@ -1,6 +1,6 @@
 # oxvm-rust: instructions for coding agents
 
-This repository is an OXVM WebAssembly module that runs Rust programs compiled for `wasm32-wasip1` as real Linux
+This repository is an OxVM WebAssembly module that runs Rust programs compiled for `wasm32-wasip1` as real Linux
 processes of a VM. `module.ts` holds the whole definition: a literal `manifest` and the `adapter`.
 
 - Edit `module.ts`, `src/`, `test/`, `scripts/`, `crates/`, `examples/` and `test/fixtures/rust/`. Never edit `dist/` or `target/`.
