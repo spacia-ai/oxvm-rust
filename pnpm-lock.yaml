@@ -12,11 +12,11 @@ importers:
         specifier: 10.0.1
         version: 10.0.1(eslint@10.7.0)
       '@oxvm/cli':
-        specifier: 0.0.33
-        version: 0.0.33
+        specifier: 0.0.34
+        version: 0.0.34
       '@oxvm/sdk':
-        specifier: 0.0.33
-        version: 0.0.33
+        specifier: 0.0.34
+        version: 0.0.34
       '@types/node':
         specifier: 24.13.3
         version: 24.13.3
@@ -483,13 +483,13 @@ packages:
     resolution: {integrity: sha512-XlOlEbQcE9fmuXxrVTXCTlG2nlRXa9Rj3rr5Ue/+tX+nmkgbX720YHh0VR3hBF9xDvwnb8D2shVGOwNx+ulArw==}
     engines: {node: '>= 20.19.0'}
 
-  '@oxvm/cli@0.0.33':
-    resolution: {integrity: sha512-eA8nh0PzX/h7mXrRHsFnmaDu0g4vrEVxlAy/vf6SUbyqg7u1OyxbG6qI3En/PZv0aQfdu6O572lpPqKqJxPNLw==}
+  '@oxvm/cli@0.0.34':
+    resolution: {integrity: sha512-AKzn/fj3IR2ujBOD1hECAj0ISUmIrjaDxXFWPDvKc4pdlkw6lv4u25Ygq6whPYildvApWnygNR9D6VSNQwWW1g==}
     engines: {node: '>=24'}
     hasBin: true
 
-  '@oxvm/sdk@0.0.33':
-    resolution: {integrity: sha512-AOyHsgM+ZzJwzRAqOX2oHsen0VuE/eS8jOcIiOSXdWztksINZ7JBCOcxiKoq7EGtzGCjZlpYia61xZGI70Hdqw==}
+  '@oxvm/sdk@0.0.34':
+    resolution: {integrity: sha512-aYJMrhJC37uD5xBMn9R800UbgIGgA7NoRMckBWZsfLaXCBCRZLwoT+p8yQ1oi/L+DAn6xuvU/Yjgz756khRZAA==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1707,13 +1707,13 @@ snapshots:
 
   '@noble/hashes@2.0.1': {}
 
-  '@oxvm/cli@0.0.33':
+  '@oxvm/cli@0.0.34':
     dependencies:
-      '@oxvm/sdk': 0.0.33
+      '@oxvm/sdk': 0.0.34
     transitivePeerDependencies:
       - supports-color
 
-  '@oxvm/sdk@0.0.33':
+  '@oxvm/sdk@0.0.34':
     dependencies:
       '@babel/generator': 7.29.7
       '@babel/parser': 7.29.7
