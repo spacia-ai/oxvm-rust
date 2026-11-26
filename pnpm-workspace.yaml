@@ -1,5 +1,5 @@
 allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
-  - '@oxvm/cli@0.0.37'
-  - '@oxvm/sdk@0.0.37'
+  - '@oxvm/cli@0.0.38'
+  - '@oxvm/sdk@0.0.38'
