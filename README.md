@@ -73,7 +73,7 @@ Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 ## OxVM migration
 
 This source prepares module `oxvm-rust` 0.2.0 with the matched `@oxvm/sdk`
-and `@oxvm/cli` 0.0.34 packages. The workspace uses the actual
+and `@oxvm/cli` 0.0.37 packages. The workspace uses the actual
 `oxvm-bridge = "0.1"` crate. Rust code imports `oxvm_bridge::`, and the bridge
 emits `oxvm_bridge_v1`. This is a package identity change, with unchanged v1
 records and permissions.
@@ -83,7 +83,7 @@ implementation. Earlier locked modules keep their recorded identity and
 artifacts. Install this canonical module as a new identity and review the
 module and capability changes before replacing an earlier locked installation.
 
-The matched SDK/CLI 0.0.34 and bridge crate 0.1.0 are published. Registry locks
+The matched SDK/CLI 0.0.37 and bridge crate 0.1.0 are published. Registry locks
 resolve these packages. Before tagging a module release, rebuild the demonstration
 program and complete the browser conformance and reproducibility checks. Use
 `OXVM_BRIDGE_PATH` only to qualify an unreleased bridge change locally.
